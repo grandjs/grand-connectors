@@ -10,6 +10,7 @@
  */
 import { Entity } from "grand-model";
 import { IDataSource, IRepository } from "./types";
+import { InjectDataSource, InjectModel, InjectService, loadClass } from "./decorators";
 declare abstract class Repository implements IRepository {
     dataSources: {
         [key: string]: DataSource;
@@ -28,4 +29,4 @@ declare abstract class DataSource implements IDataSource {
     private init;
     abstract connect(): any;
 }
-export { DataSource, Repository, IDataSource, IRepository };
+export { DataSource, Repository, IDataSource, IRepository, InjectDataSource, InjectModel, InjectService, loadClass };

@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InjectService = exports.InjectModel = exports.InjectDataSource = void 0;
+exports.loadClass = exports.InjectService = exports.InjectModel = exports.InjectDataSource = void 0;
 const util_1 = require("util");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const grand_model_1 = require("grand-model");
 // inject new service in any class
 const InjectService = (name, store, Service, data) => {
     return (constructor) => {
@@ -36,16 +37,16 @@ const InjectDataSource = (ComingDataSource) => {
 };
 exports.InjectDataSource = InjectDataSource;
 // inject model into the repository
-const InjectModel = (Entity, Model, DataSourceName) => {
+const InjectModel = (options) => {
     return (target, key) => {
-        let DataSource = target.dataSources[DataSourceName];
+        let DataSource = target.dataSources[options.DataSourceName];
         if (DataSource) {
             target.Models = target.Models || {};
-            target.Models[key] = { DataSource: DataSource, Entity: Entity, Model: Model };
-            target[key] = { DataSource: DataSource, Entity: Entity, Model: Model };
+            target.Models[key] = { DataSource: DataSource, Entity: options.Entity, Model: options.Model ? options.Model : null };
+            target[key] = { DataSource: DataSource, Entity: grand_model_1.Entity, Model: options.Model ? options.Model : null };
         }
         else {
-            throw new Error(`${DataSourceName} is not exist in ${target} Repository`);
+            throw new Error(`${options.DataSourceName} is not exist in ${target} Repository`);
         }
     };
 };
@@ -119,3 +120,9 @@ const generateMongooseModel = (Entity, entityName) => {
         }
     `;
 };
+// load class method for mongoose
+const loadClass = (Schema, entity) => {
+    Schema.loadClass(entity.prototype.Methods || class {
+    });
+};
+exports.loadClass = loadClass;
