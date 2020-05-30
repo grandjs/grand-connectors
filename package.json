@@ -1,0 +1,41 @@
+{
+  "name": "grand-connectors",
+  "version": "1.0.0",
+  "description": "A Grandjs package for applying repository pattern for nodejs and javascript applications using typescript",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tareksalem/grand-connectors.git"
+  },
+  "keywords": [
+    "grandjs",
+    "nodejs",
+    "javascript",
+    "typescript",
+    "repository",
+    "pattern",
+    "clean",
+    "design",
+    "archeticute",
+    "models",
+    "decorators",
+    "injectors"
+  ],
+  "author": "Tarek Salem",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tareksalem/grand-connectors/issues"
+  },
+  "homepage": "https://github.com/tareksalem/grand-connectors#readme",
+  "dependencies": {
+    "grand-model": "^1.0.0",
+    "ts-node": "^8.10.2"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.6"
+  }
+}
