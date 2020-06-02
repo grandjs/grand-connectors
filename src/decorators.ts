@@ -14,7 +14,7 @@ import {promisify} from "util";
 import Fs from "fs";
 import Path from "path";
 import { Entity } from "grand-model";
-
+const DataSources:{name?:string, DataSource?:IDataSource} = {}
 // inject new service in any class
 const InjectService = (name:string, store:any, Service:any, data?:any) => {
     return (constructor:Function) => {
@@ -27,7 +27,7 @@ const InjectService = (name:string, store:any, Service:any, data?:any) => {
 // inject new data source into the repository
 const InjectDataSource = (ComingDataSource:any) => {
     return (target:Repository, key:string) => {
-        let dataSource = new ComingDataSource();
+        let dataSource = DataSources.name === key ? DataSources.DataSource : new ComingDataSource();
         target[key] = dataSource;
         target.dataSources = target.dataSources || {};
         target.dataSources[key] = dataSource;
@@ -124,4 +124,4 @@ const loadClass = (Schema, entity:Function) => {
     Schema.loadClass(entity.prototype.Methods || class {});
 }
 
-export {InjectDataSource, InjectModel, InjectService, loadClass}
+export {InjectDataSource, InjectModel, InjectService, loadClass, DataSources}
