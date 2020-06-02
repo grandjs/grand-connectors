@@ -42,7 +42,7 @@ const InjectModel = (options:{Entity?:any, DataSourceName:string, Model?:any}) =
         if(DataSource) {
             target.Models = target.Models || {};
             target.Models[key] = {DataSource: DataSource, Entity: options.Entity, Model:options.Model ? options.Model : null};
-            target[key] = {DataSource: DataSource, Entity: Entity, Model:options.Model ? options.Model : null}
+            target[key] = {DataSource: DataSource, Entity: options.Entity, Model:options.Model ? options.Model : null}
         } else {
             throw new Error(`${options.DataSourceName} is not exist in ${target} Repository`);
         }
