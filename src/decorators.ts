@@ -20,7 +20,7 @@ const InjectService = (name:string, store:any, Service:any, data?:any) => {
     return (constructor:Function) => {
         constructor.prototype[store] = constructor.prototype[store] || {};
         // console.log(new Service().getGreetingMessage)
-        constructor.prototype[store][name] = new Service(data);
+        constructor.prototype[store][name] = typeof Service === "function" ? new Service(data): Service;
     }
 }
 
