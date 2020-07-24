@@ -19,7 +19,7 @@ declare const InjectService: (name: string, store: any, Service: any, data?: any
 declare const InjectDataSource: (ComingDataSource: any) => (target: Repository, key: string) => void;
 declare const InjectModel: (options: {
     Entity?: any;
-    DataSourceName: string;
+    DataSourceName?: string;
     Model?: any;
 }) => (target: Repository, key: any) => void;
 declare const loadClass: (Schema: any, entity: Function) => void;

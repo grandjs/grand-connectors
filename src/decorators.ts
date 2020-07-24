@@ -36,16 +36,13 @@ const InjectDataSource = (ComingDataSource:any) => {
 
 
 // inject model into the repository
-const InjectModel = (options:{Entity?:any, DataSourceName:string, Model?:any}) => {
+const InjectModel = (options:{Entity?:any, DataSourceName?:string, Model?:any}) => {
     return (target:Repository, key) => {
+        target.dataSources = target.dataSources || {};
         let DataSource = target.dataSources[options.DataSourceName];
-        if(DataSource) {
             target.Models = target.Models || {};
-            target.Models[key] = {DataSource: DataSource, Entity: options.Entity, Model:options.Model ? options.Model : null};
-            target[key] = {DataSource: DataSource, Entity: options.Entity, Model:options.Model ? options.Model : null}
-        } else {
-            throw new Error(`${options.DataSourceName} is not exist in ${target} Repository`);
-        }
+            target.Models[key] = {DataSource: DataSource ? DataSource : null, Entity: options.Entity, Model:options.Model ? options.Model : null};
+            target[key] = {DataSource: DataSource ? DataSource : null, Entity: options.Entity, Model:options.Model ? options.Model : null}
     }
 }
 
