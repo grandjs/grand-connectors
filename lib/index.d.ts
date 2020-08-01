@@ -9,7 +9,7 @@
  * ==============================================================================
  */
 import { Entity } from "grand-model";
-import { IDataSource, IRepository } from "./types";
+import { IDataSource, IRepository, ServiceModes } from "./types";
 import { InjectDataSource, InjectModel, InjectService, loadClass } from "./decorators";
 declare abstract class Repository implements IRepository {
     dataSources: {
@@ -22,6 +22,7 @@ declare abstract class Repository implements IRepository {
             Entity: Entity;
         };
     };
+    constructor();
 }
 declare abstract class DataSource implements IDataSource {
     abstract type: string;
@@ -29,4 +30,4 @@ declare abstract class DataSource implements IDataSource {
     private init;
     abstract connect(): any;
 }
-export { DataSource, Repository, IDataSource, IRepository, InjectDataSource, InjectModel, InjectService, loadClass };
+export { DataSource, Repository, IDataSource, ServiceModes, IRepository, InjectDataSource, InjectModel, InjectService, loadClass };

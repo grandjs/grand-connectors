@@ -24,3 +24,8 @@ export interface IRepository{
         Entity:Entity
     }}
 }
+
+export enum ServiceModes{
+    global = "global",
+    private = "private"
+}

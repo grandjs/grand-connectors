@@ -9,7 +9,7 @@
  * ==============================================================================
  */
 import {Entity, settings, property} from "grand-model";
-import {IDataSource, IRepository} from "./types";
+import {IDataSource, IRepository, ServiceModes} from "./types";
 import {InjectDataSource, InjectModel, InjectService, loadClass} from "./decorators";
 enum DBSourceTypes{
     mongoose = "mongoose",
@@ -24,6 +24,9 @@ abstract class Repository implements IRepository{
         Model?:any,
         Entity:Entity
     }}
+    constructor() {
+        console.log("I instantiated")
+    }
 }
 
 abstract class DataSource implements IDataSource{
@@ -40,4 +43,6 @@ abstract class DataSource implements IDataSource{
 }
 
 
-export {DataSource, Repository, IDataSource, IRepository, InjectDataSource, InjectModel, InjectService, loadClass}
+
+
+export {DataSource, Repository, IDataSource, ServiceModes, IRepository, InjectDataSource, InjectModel, InjectService, loadClass}

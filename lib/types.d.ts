@@ -26,3 +26,7 @@ export interface IRepository {
         };
     };
 }
+export declare enum ServiceModes {
+    global = "global",
+    private = "private"
+}

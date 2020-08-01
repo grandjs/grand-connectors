@@ -9,13 +9,10 @@
  * ==============================================================================
  */
 import { Repository } from "./index";
-import { IDataSource } from "./types";
+import { ServiceModes } from "./types";
 import { Entity } from "grand-model";
-declare const DataSources: {
-    name?: string;
-    DataSource?: IDataSource;
-};
-declare const InjectService: (name: string, store: any, Service: any, data?: any) => (constructor: Function) => void;
+import { DataSources } from "./store";
+declare const InjectService: (store: string, Service: any, mode?: ServiceModes, data?: any) => (constructor: Function) => void;
 declare const InjectDataSource: (ComingDataSource: any) => (target: Repository, key: string) => void;
 declare const InjectModel: (options: {
     Entity?: any;
