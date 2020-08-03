@@ -24,9 +24,6 @@ abstract class Repository implements IRepository{
         Model?:any,
         Entity:Entity
     }}
-    constructor() {
-        console.log("I instantiated")
-    }
 }
 
 abstract class DataSource implements IDataSource{

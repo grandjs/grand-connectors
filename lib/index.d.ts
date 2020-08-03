@@ -22,7 +22,6 @@ declare abstract class Repository implements IRepository {
             Entity: Entity;
         };
     };
-    constructor();
 }
 declare abstract class DataSource implements IDataSource {
     abstract type: string;

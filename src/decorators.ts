@@ -75,12 +75,15 @@ const Mode = (mode: ServiceModes) => {
 const InjectDataSource = (ComingDataSource: any) => {
   return (target: Repository, key: string) => {
     let dataSource =
-      DataSources.name === key
-        ? DataSources.DataSource
+      DataSources[key]?.name === key
+        ? DataSources[key].DataSource
         : new ComingDataSource();
     target[key] = dataSource;
     target.dataSources = target.dataSources || {};
     target.dataSources[key] = dataSource;
+    if(!DataSources[key]) {
+      DataSources[key] = {name: key, dataSource}
+    }
   };
 };
 

@@ -247,7 +247,7 @@ This decorator is exposed if you want to inject any class inside another class a
 import {InjectService} from "grand-connectors";
 import {Router} from "grandjs";
 
-@InjectService("UserRepository", "repositories", UserRepository)
+@InjectService("repositories", UserRepository)
 class UserController{
     repositories: {
         UserRepository:UserRepository
@@ -280,6 +280,5 @@ This decorator uses the following parameters
 
 |name|type|required|description|
 |-|-|-|-|
-|ServiceName|string|true|The name of the service that you want to inject inside the class|
-|store|object|true|the store object that is exist inside the class that you want to add the service in as a property|
+|store|object|true|the store object that is exist inside the class that you want to add the service in as a property or it can be `this` which refers to the class itself|
 |Service|Service|true|The Service class that you want to inject|

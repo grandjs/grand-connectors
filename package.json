@@ -1,6 +1,6 @@
 {
   "name": "grand-connectors",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A Grandjs package for applying repository pattern for nodejs and javascript applications using typescript",
   "main": "lib/index.js",
   "scripts": {
