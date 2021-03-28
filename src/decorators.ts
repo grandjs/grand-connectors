@@ -26,10 +26,11 @@ const InjectService = (
   return (constructor: Function) => {
     let storeWhere: any;
     let preparedService;
-    let serviceName =
+    let serviceName:string =
       typeof Service === "function"
         ? Service.prototype.constructor.name
         : Service.constructor.name;
+    let serviceNameLowerCase = serviceName.charAt(0).toLowerCase() + serviceName.slice(1);
     if (Object.values(ServiceModes).includes(mode)) {
       if (mode === ServiceModes.global) {
           if(Services[serviceName]) {
@@ -47,7 +48,7 @@ const InjectService = (
         storeWhere = constructor.prototype[store] =
           constructor.prototype[store] || {};
       }
-      storeWhere[serviceName] = preparedService;
+      storeWhere[serviceNameLowerCase] = preparedService;
     } else {
       throw new Error(
         `service mode should be on of the following, ${Object.keys(
