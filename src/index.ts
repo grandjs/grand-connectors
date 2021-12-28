@@ -33,7 +33,7 @@ abstract class DataSource implements IDataSource{
     }
     private init() {
         if(this.connect) {
-            this.connect()
+            return this.connect().then().catch(err => { throw Error(err) });
         }
     }
     abstract connect():any;

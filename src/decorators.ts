@@ -35,12 +35,18 @@ const InjectService = (
       if (mode === ServiceModes.global) {
           if(Services[serviceName]) {
           } else {
-            Services[serviceName] = {name: serviceName, Service: new Service(data)}
+            Services[serviceName] = { name: serviceName, Service: new Service(data) };
+            if (Services[serviceName].Service?.init) {
+              Services[serviceName].Service?.init();
+            }
           }
         preparedService = Services[serviceName].Service
       } else {
         preparedService =
           typeof Service === "function" ? new Service(data) : Service;
+          if (preparedService?.init) {
+            preparedService?.init();
+          }
       }
       if (store === "this") {
         storeWhere = constructor.prototype;
