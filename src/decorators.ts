@@ -13,7 +13,6 @@ import { IDataSource, ServiceModes } from "./types";
 import { promisify } from "util";
 import Fs from "fs";
 import Path from "path";
-import { Entity } from "grand-model";
 import { DataSources, Models, Services } from "./store";
 
 // inject new service in any class
@@ -26,41 +25,43 @@ const InjectService = (
   return (constructor: Function) => {
     let storeWhere: any;
     let preparedService;
-    let serviceName:string =
-      typeof Service === "function"
-        ? Service.prototype.constructor.name
-        : Service.constructor.name;
-    let serviceNameLowerCase = serviceName.charAt(0).toLowerCase() + serviceName.slice(1);
-    if (Object.values(ServiceModes).includes(mode)) {
-      if (mode === ServiceModes.global) {
-          if(Services[serviceName]) {
+    if (Service) {
+      let serviceName: string =
+        typeof Service === "function"
+          ? Service.prototype.constructor?.name
+          : Service.constructor.name;
+      let serviceNameLowerCase = serviceName.charAt(0).toLowerCase() + serviceName.slice(1);
+      if (Object.values(ServiceModes).includes(mode)) {
+        if (mode === ServiceModes.global) {
+          if (Services[serviceName]) {
           } else {
             Services[serviceName] = { name: serviceName, Service: new Service(data) };
             if (Services[serviceName].Service?.init) {
               Services[serviceName].Service?.init();
             }
           }
-        preparedService = Services[serviceName].Service
-      } else {
-        preparedService =
-          typeof Service === "function" ? new Service(data) : Service;
+          preparedService = Services[serviceName].Service
+        } else {
+          preparedService =
+            typeof Service === "function" ? new Service(data) : Service;
           if (preparedService?.init) {
             preparedService?.init();
           }
-      }
-      if (store === "this") {
-        storeWhere = constructor.prototype;
+        }
+        if (store === "this") {
+          storeWhere = constructor.prototype;
+        } else {
+          storeWhere = constructor.prototype[store] =
+            constructor.prototype[store] || {};
+        }
+        storeWhere[serviceNameLowerCase] = preparedService;
       } else {
-        storeWhere = constructor.prototype[store] =
-          constructor.prototype[store] || {};
+        throw new Error(
+          `service mode should be on of the following, ${Object.keys(
+            ServiceModes
+          ).join(" , ")}`
+        );
       }
-      storeWhere[serviceNameLowerCase] = preparedService;
-    } else {
-      throw new Error(
-        `service mode should be on of the following, ${Object.keys(
-          ServiceModes
-        ).join(" , ")}`
-      );
     }
   };
 };
@@ -116,20 +117,6 @@ const InjectModel = (options: {
     };
   };
 };
-
-// const InjectModel = (Entity:any,  DataSourceName:string) => {
-//     return (target:Repository, key) => {
-//         let DataSource = target.dataSources[DataSourceName];
-//         if(DataSource) {
-//             target.Models = target.Models || {};
-//             // check if the data source type is mongoose
-
-//             // target.Models[key] = {DataSource: DataSource, Entity: Entity, Model:Model};
-//         } else {
-//             throw new Error(`${DataSourceName} is not exist in ${target} Repository`);
-//         }
-//     }
-// }
 
 const bootsstrapModel = async () => {
   try {

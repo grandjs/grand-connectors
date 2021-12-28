@@ -8,7 +8,6 @@
  * File Role: Main File
  * ==============================================================================
  */
-import {Entity, settings, property} from "grand-model";
 import {IDataSource, IRepository, ServiceModes} from "./types";
 import {InjectDataSource, InjectModel, InjectService, loadClass} from "./decorators";
 enum DBSourceTypes{
@@ -22,18 +21,18 @@ abstract class Repository implements IRepository{
     Models:{[key:string]: {
         DataSource:DataSource,
         Model?:any,
-        Entity:Entity
+        Entity?:any
     }}
 }
 
 abstract class DataSource implements IDataSource{
     abstract type: string;
     constructor() {
-        this.init();
+        this.init().then().catch(err => { throw Error(err) });
     }
-    private init() {
+    private async init() {
         if(this.connect) {
-            return this.connect().then().catch(err => { throw Error(err) });
+            return this.connect();
         }
     }
     abstract connect():any;
